@@ -9,6 +9,7 @@ namespace Calculator.Tests
         [Fact]
         public void TestSum2And2()
         {
+            Calculator c = new Calculator();
         }
     }
 }
