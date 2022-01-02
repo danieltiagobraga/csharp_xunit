@@ -18,8 +18,11 @@
     
     Command line execute: dotnet test --filter Category=Sum
 */
+using System.Collections.Generic;
+using System.Reflection;
 using Xunit;
 using Xunit.Abstractions;
+using Xunit.Sdk;
 
 namespace Calculator.Tests
 {
@@ -28,10 +31,10 @@ namespace Calculator.Tests
         private readonly ITestOutputHelper _output; // To write custom test output messages
         private readonly ICalculator _calculator;
 
-        public CalculatorShould(ITestOutputHelper output, ICalculator calculator) 
+        public CalculatorShould(ITestOutputHelper output) 
         {
             _output = output;
-            _calculator = calculator;
+            _calculator = new Calculator();
         }
 
         [Fact]                                      // Indicates this method is a unit test
@@ -74,5 +77,57 @@ namespace Calculator.Tests
             // Assert Phase 
             Assert.Equal(12, sum);
         }
+
+        /*
+            Data driven tests
+
+            InlineData we can use this attribute to pass data to our test
+        */
+        [Theory]
+        [InlineData(1, 2)]
+        [InlineData(2, 2)]
+        [InlineData(3, 5)]
+        public  void TestSum(int n1, int n2)
+        {
+            // Arrange Phase
+            // Calculator c = new();
+
+            // Act Phase
+            var sum = _calculator.Sum(n1, n2);
+
+            // Assert Phase 
+            Assert.Equal(n1 + n2, sum);
+        }
+
+         /*
+            Data driven tests
+
+            Get data from custom attribute
+        */
+        [Theory]
+        [SumData]
+        public void TestSumCustomAttribute(int n1, int n2)
+        {
+            // Arrange Phase
+
+            // Act Phase
+            var sum = _calculator.Sum(n1, n2);
+
+            // Assert Phase 
+            Assert.Equal(n1 + n2, sum);
+        }        
     }
+
+
+
+    public class SumData : DataAttribute
+    {
+        public override IEnumerable<object[]> GetData(MethodInfo testMethod)
+        {
+            yield return new object[] {1, 2};
+            yield return new object[] {2, 2};
+            yield return new object[] {3, 5};
+        }
+    }
+
 }
