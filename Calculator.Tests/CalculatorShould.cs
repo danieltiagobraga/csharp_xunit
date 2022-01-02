@@ -26,12 +26,12 @@ namespace Calculator.Tests
     public class CalculatorShould
     {
         private readonly ITestOutputHelper _output; // To write custom test output messages
-        private readonly Calculator c;
+        private readonly ICalculator _calculator;
 
-        public CalculatorShould(ITestOutputHelper output, Calculator calculator) 
+        public CalculatorShould(ITestOutputHelper output, ICalculator calculator) 
         {
             _output = output;
-            c = calculator;
+            _calculator = calculator;
         }
 
         [Fact]                                      // Indicates this method is a unit test
@@ -42,7 +42,7 @@ namespace Calculator.Tests
             //Calculator c = new();
 
             // Act Phase
-            var sum = c.Sum(2, 2);
+            var sum = _calculator.Sum(2, 2);
 
             // Assert Phase 
             Assert.Equal(4, sum);
@@ -54,7 +54,7 @@ namespace Calculator.Tests
             //Calculator c = new();
 
             // Act Phase
-            var sum = c.Sum(4, 4);
+            var sum = _calculator.Sum(4, 4);
 
             // Assert Phase 
             Assert.Equal(8, sum);
@@ -69,7 +69,7 @@ namespace Calculator.Tests
             //Calculator c = new();
 
             // Act Phase
-            var sum = c.Sum(6, 6);
+            var sum = _calculator.Sum(6, 6);
 
             // Assert Phase 
             Assert.Equal(12, sum);

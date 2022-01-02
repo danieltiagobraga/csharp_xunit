@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace Calculator
+﻿namespace Calculator
 {
-    public class Calculator
+    public class Calculator : ICalculator
     {
         public int Sum(int n1, int n2) =>
             n1 + n2;
